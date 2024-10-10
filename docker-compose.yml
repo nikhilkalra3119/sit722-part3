@@ -1,4 +1,3 @@
-version: '3'
 services:
   book_catalog:
     image: book_catalog:latest
@@ -9,10 +8,10 @@ services:
         - NO_CACHE=true
     container_name: book_catalog_cntr
     ports:
-     - "4002:5000"
+     - "4000:8000"
     environment:
-      - PORT=5000
-      - DATABASE_URL=postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
+      - PORT=8000
+      - DATABASE_URL=postgresql://sit_722_part3_wfaa_user:wRB1C5x1wov2Oax7NSDGawBEHXr6WZqb@dpg-cs3omr56l47c73dame8g-a.oregon-postgres.render.com/sit_722_part3_wfaa
     restart: "no"
 
   inventory_management:
@@ -24,8 +23,8 @@ services:
         - NO_CACHE=true
     container_name: inventory_management_cntr
     ports:
-     - "4003:5001"
+     - "3000:7000"
     environment:
-      - PORT=5001
-      - DATABASE_URL=postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
+      - PORT=7000
+      - DATABASE_URL=postgresql://sit_722_part3_wfaa_user:wRB1C5x1wov2Oax7NSDGawBEHXr6WZqb@dpg-cs3omr56l47c73dame8g-a.oregon-postgres.render.com/sit_722_part3_wfaa
     restart: "no"
