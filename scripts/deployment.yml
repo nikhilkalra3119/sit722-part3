@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-catalog-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-catalog
+  template:
+    metadata:
+      labels:
+        app: book-catalog
+    spec:
+      containers: 
+      - name: book-catalog
+        image: projectpart3cntr.azurecr.io/book_catlog_az5:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PORT
+          value: "5000"
+        - name: DATABASE_URL
+          value: postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-catalog-service
+spec:
+  selector:
+    app: book-catalog
+  type: LoadBalancer
+  ports:
+    - port: 4002
+      targetPort: 5000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-management-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-management
+  template:
+    metadata:
+      labels:
+        app: inventory-management
+    spec:
+      containers: 
+      - name: inventory-management
+        image: projectpart3cntr.azurecr.io/inventory_management_az5:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5001
+        env:
+        - name: PORT
+          value: "5001"
+        - name: DATABASE_URL
+          value: postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-management-service
+spec:
+  selector:
+    app: inventory-management
+  type: LoadBalancer
+  ports:
+    - port: 4003
+      targetPort: 5001
