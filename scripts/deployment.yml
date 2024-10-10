@@ -12,17 +12,20 @@ spec:
       labels:
         app: book-catalog
     spec:
-      containers: 
-      - name: book-catalog
-        image: projectpart3cntr.azurecr.io/book_catlog_az5:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 5000
-        env:
-        - name: PORT
-          value: "5000"
-        - name: DATABASE_URL
-          value: postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
+      imagePullSecrets:
+        - name: acr-secret
+      containers:  
+        - name: book-catalog
+          image: sit722part3.azurecr.io/book_catalog_az5:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: DATABASE_URL
+              value: postgresql://sit_722_part3_wfaa_user:wRB1C5x1wov2Oax7NSDGawBEHXr6WZqb@dpg-cs3omr56l47c73dame8g-a.oregon-postgres.render.com/sit_722_part3_wfaa
+
 ---
 
 apiVersion: v1
@@ -34,10 +37,8 @@ spec:
     app: book-catalog
   type: LoadBalancer
   ports:
-    - port: 4002
-      targetPort: 5000
-
----
+    - port: 4000
+      targetPort: 8000
 
 apiVersion: apps/v1
 kind: Deployment
@@ -53,18 +54,19 @@ spec:
       labels:
         app: inventory-management
     spec:
-      containers: 
+      imagePullSecrets:
+      - name: acr-secret
+      containers:  
       - name: inventory-management
-        image: projectpart3cntr.azurecr.io/inventory_management_az5:latest
+        image: sit722part3.azurecr.io/inventory_management_az5:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 5001
+        - containerPort: 7000
         env:
         - name: PORT
-          value: "5001"
+          value: "7000"
         - name: DATABASE_URL
-          value: postgresql://manish_n52d_user:6l18h8vEeKOfdHWB0UE00ryyd1eOorL2@dpg-crgka73qf0us73dn38n0-a.oregon-postgres.render.com/manish_n52d
----
+          value: postgresql://sit_722_part3_wfaa_user:wRB1C5x1wov2Oax7NSDGawBEHXr6WZqb@dpg-cs3omr56l47c73dame8g-a.oregon-postgres.render.com/sit_722_part3_wfaa
 
 apiVersion: v1
 kind: Service
@@ -75,5 +77,5 @@ spec:
     app: inventory-management
   type: LoadBalancer
   ports:
-    - port: 4003
-      targetPort: 5001
+    - port: 3000
+      targetPort: 7000
